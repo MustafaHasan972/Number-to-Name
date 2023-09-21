@@ -52,16 +52,17 @@ const sayNumberInEnglish = (n) => {
     const onesDigit = group % 10;
 
     if (hundredsDigit > 0) {
-      spelledGroup += ones[hundredsDigit] + " hundred ";
+      spelledGroup += ones[hundredsDigit] + " hundred "; // If the hundreds digit is greater than zero then it adds the corresponding name from the ones array followed by the word "hundred" to spelledGroup string
     }
 
     if (tensDigit === 1) {
-      spelledGroup += tens[tensDigit] + " ";
+      spelledGroup += tens[tensDigit] + " "; // If the tens digit is 1, it adds the corresponding name from the teens array to the spelledGroup string
     } else {
+      // Otherwise, it adds the corresponding name from the tens array followed by the corresponding name from the ones array to the spelledGroup string
       spellGroup += tens[tensDigit] + " ";
       spellGroup += ones[onesDigit] + " ";
     }
 
-    return spelledGroup.trim();
+    return spelledGroup.trim(); // This trims any whitespace from spelledGroup
   };
 };
