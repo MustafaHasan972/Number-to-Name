@@ -7,7 +7,7 @@ const sayNumberInEnglish = (n) => {
     groups.unshift(group); // This will add the group to the beginning of array groups
     remainingDigits = Math.floor(remainingNumbers / 1000); // This will remove the last three digits from remainingNumbers
   }
-  const spelledGroup = (group) => {
+  const spellGroup = (group) => {
     const ones = [
       "",
       "one",
@@ -64,5 +64,30 @@ const sayNumberInEnglish = (n) => {
     }
 
     return spelledGroup.trim(); // This trims any whitespace from spelledGroup
+  };
+
+  // Function to add magnitude word to a spelled-out group
+  const addMagnitude = (group, magnitude) => {
+    const magnitudes = [
+      "",
+      "thousand",
+      "million",
+      "billion",
+      "trillion",
+      "quadrillion",
+      "quintillion",
+      "sextillion",
+      "septillion",
+      "octillion",
+      "nonillion",
+      "decillion",
+    ];
+    const spelledGroup = spellGroup(group);
+
+    if (group > 0) {
+      return spelledGroup + " " + magnitude[magnitude];
+    }
+
+    return "";
   };
 };
