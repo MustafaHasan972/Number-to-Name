@@ -1,98 +1,51 @@
-//Function that tells the name of a number
-const sayNumberInEnglish = (n) => {
-  let groups = [];
-  let remainingNumbers = n;
-  while (remainingNumbers > 0) {
-    let group = remainingNumbers % 1000; // This will get us the last three digits of remainingNumbers
-    groups.unshift(group); // This will add the group to the beginning of array groups
-    remainingDigits = Math.floor(remainingNumbers / 1000); // This will remove the last three digits from remainingNumbers
-  }
-  const spellGroup = (group) => {
-    const ones = [
-      "",
-      "one",
-      "two",
-      "three",
-      "four",
-      "five",
-      "six",
-      "seven",
-      "eight",
-      "nine",
-    ];
-    const teens = [
-      "ten",
-      "eleven",
-      "twelve",
-      "thirteen",
-      "fourteen",
-      "fifteen",
-      "sixteen",
-      "seventeen",
-      "eighteen",
-      "nineteen",
-    ];
-    const tens = [
-      "",
-      "",
-      "twenty",
-      "thirty",
-      "forty",
-      "fifty",
-      "sixty",
-      "seventy",
-      "eighty",
-      "ninety",
-    ];
-
-    let spellGroup = ""; // This will store the spelled-out representation of the group
-
-    const hundredsDigit = Math.floor(group / 100);
-    const tensDigit = Math.floor((group % 100) / 10);
-    const onesDigit = group % 10;
-
-    if (hundredsDigit > 0) {
-      spelledGroup += ones[hundredsDigit] + " hundred "; // If the hundreds digit is greater than zero then it adds the corresponding name from the ones array followed by the word "hundred" to spelledGroup string
-    }
-
-    if (tensDigit === 1) {
-      spelledGroup += tens[tensDigit] + " "; // If the tens digit is 1, it adds the corresponding name from the teens array to the spelledGroup string
-    } else {
-      // Otherwise, it adds the corresponding name from the tens array followed by the corresponding name from the ones array to the spelledGroup string
-      spellGroup += tens[tensDigit] + " ";
-      spellGroup += ones[onesDigit] + " ";
-    }
-
-    return spelledGroup.trim(); // This trims any whitespace from spelledGroup
-  };
-
-  // Function to add magnitude word to a spelled-out group
-  const addMagnitude = (group, magnitude) => {
-    const magnitudes = [
-      "",
-      "thousand",
-      "million",
-      "billion",
-      "trillion",
-      "quadrillion",
-      "quintillion",
-      "sextillion",
-      "septillion",
-      "octillion",
-      "nonillion",
-      "decillion",
-    ];
-    const spelledGroup = spellGroup(group);
-
-    if (group > 0) {
-      return spelledGroup + " " + magnitude[magnitude]; // If the group is greater than 0, it concatenates the spelled-out group with a space and the corresponding magnitude word from the magnitudes array
-    }
-
-    return ""; // If the group is 0, it returns an empty string since there is no need to add the magnitude word for a group of zero
-  };
-
-  // Function to combine spelled-out groups with commas
-  const combineGroups = (groups) => {
-    return groups.join(", ");
-  };
+const parts = [
+  [1e9, "billion"],
+  [1e6, "million"],
+  [1e3, "thousand"],
+  [100, "hundred"],
+  [90, "ninety"],
+  [80, "eighty"],
+  [70, "seventy"],
+  [60, "sixty"],
+  [50, "fifty"],
+  [40, "forty"],
+  [30, "thirty"],
+  [20, "twenty"],
+  [19, "nineteen"],
+  [18, "eighteen"],
+  [17, "seventeen"],
+  [16, "sixteen"],
+  [15, "fifteen"],
+  [14, "fourteen"],
+  [13, "thirteen"],
+  [12, "twelve"],
+  [11, "eleven"],
+  [10, "ten"],
+  [9, "nine"],
+  [8, "eight"],
+  [7, "seven"],
+  [6, "six"],
+  [5, "five"],
+  [4, "four"],
+  [3, "three"],
+  [2, "two"],
+  [1, "one"],
+  [0, "zero"],
+];
+const floorDiv = (x, y) => Math.floor(x / y);
+const say = (n, prefix) => {
+  const [part, name] = parts.filter(([part, name]) => part <= n)[0];
+  const [high, low] = [floorDiv(n, part), n % part];
+  const tailPrefix = part < 100 ? "-" : " ";
+  const tail = low > 0 ? say(low, tailPrefix) : "";
+  if (part < 100) return `${prefix}${name}${tail}`;
+  const head = say(high, prefix ? " " : "");
+  return `${head} ${name}${tail}`;
 };
+
+const sayNumberInEnglish = (n, prefix = "") => {
+  if (n < 0 || n >= 1e12) throw "Number must be between 0 and 999,999,999,999.";
+  return say(n, prefix);
+};
+
+console.log(`1277834 in english is: ${sayNumberInEnglish(1277834)}`);
