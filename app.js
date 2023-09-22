@@ -85,9 +85,14 @@ const sayNumberInEnglish = (n) => {
     const spelledGroup = spellGroup(group);
 
     if (group > 0) {
-      return spelledGroup + " " + magnitude[magnitude];
+      return spelledGroup + " " + magnitude[magnitude]; // If the group is greater than 0, it concatenates the spelled-out group with a space and the corresponding magnitude word from the magnitudes array
     }
 
-    return "";
+    return ""; // If the group is 0, it returns an empty string since there is no need to add the magnitude word for a group of zero
+  };
+
+  // Function to combine spelled-out groups with commas
+  const combineGroups = (groups) => {
+    return groups.join(", ");
   };
 };
